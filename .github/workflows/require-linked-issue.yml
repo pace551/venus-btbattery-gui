@@ -1,0 +1,27 @@
+name: "Require Linked Issue"
+
+on:
+  pull_request:
+    types: [opened, edited, reopened]
+
+jobs:
+  check-linked-issue:
+    name: Check for linked issue
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Check PR body for issue reference
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          if echo "$PR_BODY" | grep -qiE \
+            '(close[sd]?|fix(e[sd])?|resolve[sd]?)\s+#[0-9]+'; then
+            echo "Found linked issue reference."
+          else
+            echo "::error::PR #$PR_NUMBER has no linked issue."
+            echo "Add 'Fixes #N', 'Closes #N', or"
+            echo "'Resolves #N' to the PR description."
+            exit 1
+          fi
