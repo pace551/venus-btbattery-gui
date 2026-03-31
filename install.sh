@@ -2,10 +2,6 @@
 set -e
 
 INSTALL_DIR="/data/venus-btbattery-gui"
-GUI_V2_DIR="/opt/victronenergy/gui-v2"
-GUI_QML_DIR="$GUI_V2_DIR/pages"
-GUI_COMPONENTS_DIR="$GUI_V2_DIR/components"
-SWIPE_MODEL="$GUI_COMPONENTS_DIR/SwipePageModel.qml"
 RC_LOCAL="/data/rc.local"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 RC_MARKER="# venus-btbattery-gui"
@@ -14,12 +10,22 @@ PAGE_NAME="PageBatteryParallelOverview"
 echo "=== venus-btbattery-gui installer ==="
 echo ""
 
-# Validate VenusOS
-if [ ! -d "$GUI_V2_DIR" ]; then
-    echo "ERROR: gui-v2 not found at $GUI_V2_DIR"
+# Locate gui-v2 (path differs between Cerbo GX and RPi4)
+if [ -d "/opt/victronenergy/gui-v2" ]; then
+    GUI_V2_DIR="/opt/victronenergy/gui-v2"
+elif [ -d "/var/www/venus/gui-v2" ]; then
+    GUI_V2_DIR="/var/www/venus/gui-v2"
+else
+    echo "ERROR: gui-v2 not found. Searched:"
+    echo "  /opt/victronenergy/gui-v2"
+    echo "  /var/www/venus/gui-v2"
     echo "This installer requires VenusOS v3.x with gui-v2."
     exit 1
 fi
+
+GUI_QML_DIR="$GUI_V2_DIR/pages"
+GUI_COMPONENTS_DIR="$GUI_V2_DIR/components"
+SWIPE_MODEL="$GUI_COMPONENTS_DIR/SwipePageModel.qml"
 
 # Log gui-v2 version for troubleshooting
 if [ -f /opt/victronenergy/version ]; then
