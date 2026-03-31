@@ -117,7 +117,8 @@ Rectangle {
         if (batteryModel.count >= maxBatteries) return
 
         var mac = extractMac(serviceName)
-        var displayName = nameMap[mac] || ("Battery " + nextUnnamedIndex++)
+        var configName = nameMap[mac] || ""
+        var displayName = configName || ("Battery " + nextUnnamedIndex++)
         var serviceUid = "dbus/" + serviceName
 
         // Determine insert position: named batteries in config order, unnamed appended
@@ -154,7 +155,8 @@ Rectangle {
             var binding = component.createObject(root, {
                 serviceUid: serviceUid,
                 serviceName: serviceName,
-                batteryModel: batteryModel
+                batteryModel: batteryModel,
+                configName: configName
             })
             batteryBindings.push(binding)
         }
