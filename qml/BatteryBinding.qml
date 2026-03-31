@@ -7,6 +7,7 @@ Item {
     required property string serviceUid
     required property string serviceName
     required property var batteryModel
+    property string configName: ""
 
     function findModelIndex() {
         for (var i = 0; i < batteryModel.count; i++) {
@@ -18,6 +19,14 @@ Item {
     function updateModel(prop, value) {
         var idx = findModelIndex()
         if (idx >= 0) batteryModel.setProperty(idx, prop, value)
+    }
+
+    VeQuickItem {
+        uid: root.serviceUid + "/CustomName"
+        onValueChanged: {
+            if (valid && value && root.configName === "")
+                root.updateModel("name", value)
+        }
     }
 
     VeQuickItem {
