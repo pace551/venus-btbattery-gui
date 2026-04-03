@@ -21,11 +21,11 @@ SwipeViewPage {
     property bool fontBatNameBold: true
     property int fontBatSocSize: 20
     property bool fontBatSocBold: true
-    property int fontBatStatsSize: 14
+    property int fontBatStatsSize: 16
     property bool fontBatStatsBold: false
-    property int fontBankLabelSize: 10
+    property int fontBankLabelSize: 12
     property bool fontBankLabelBold: false
-    property int fontBankValueSize: 18
+    property int fontBankValueSize: 20
     property bool fontBankValueBold: true
 
     Component.onCompleted: loadConfig()
@@ -236,6 +236,8 @@ SwipeViewPage {
                         socColorRed: root.socColorRed
                     }
 
+                    Item { width: 1; height: 4 }
+
                     Text {
                         anchors.horizontalCenter: parent.horizontalCenter
                         text: model.name
@@ -280,12 +282,14 @@ SwipeViewPage {
         }
 
         // === SEPARATOR ===
+        Item { width: 1; height: 4 }
         Rectangle {
-            width: root.width - 24
+            width: batteryRow.width
             height: 1
             color: root.accentColor
             anchors.horizontalCenter: parent.horizontalCenter
         }
+        Item { width: 1; height: 4 }
 
         // === BANK AGGREGATE ROW ===
         Row {
