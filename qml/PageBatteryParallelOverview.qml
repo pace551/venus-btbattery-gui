@@ -1,14 +1,12 @@
 import QtQuick
 import Victron.VenusOS
 
-Rectangle {
+SwipeViewPage {
     id: root
-    width: 800
-    height: 480
-    color: "#1a1a2e"
 
-    // Accepted by SwipePageModel (unused, but required to avoid binding error)
-    property var view
+    navButtonText: "Batteries"
+    navButtonIcon: "qrc:/images/icon_battery_24.svg"
+    url: "file:///data/venus-btbattery-gui/qml/PageBatteryParallelOverview.qml"
 
     // Config properties (loaded from config.ini)
     property int socColorGreen: 60
@@ -199,12 +197,12 @@ Rectangle {
     // Battery model — populated by D-Bus discovery
     ListModel { id: batteryModel }
 
-    // Sizing function based on battery count
+    // Sizing — scaled for actual screen dimensions
     property int batteryCount: batteryModel.count
-    property int iconWidth: batteryCount <= 4 ? 56 : (batteryCount <= 6 ? 48 : 40)
-    property int iconHeight: batteryCount <= 4 ? 110 : (batteryCount <= 6 ? 95 : 80)
-    property int statFontSize: batteryCount <= 4 ? 13 : (batteryCount <= 6 ? 12 : 11)
-    property int socFontSize: batteryCount <= 4 ? 18 : (batteryCount <= 6 ? 16 : 14)
+    property int iconWidth: batteryCount <= 4 ? 40 : (batteryCount <= 6 ? 34 : 28)
+    property int iconHeight: batteryCount <= 4 ? 80 : (batteryCount <= 6 ? 68 : 56)
+    property int statFontSize: batteryCount <= 4 ? 10 : (batteryCount <= 6 ? 9 : 8)
+    property int socFontSize: batteryCount <= 4 ? 14 : (batteryCount <= 6 ? 12 : 11)
 
     // SOC color helper
     function socColor(soc) {
@@ -214,18 +212,24 @@ Rectangle {
         return "#d32f2f"
     }
 
+    // Background
+    Rectangle {
+        anchors.fill: parent
+        color: "#1a1a2e"
+    }
+
     // === TITLE BAR ===
     Text {
         id: titleBar
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.topMargin: 8
+        anchors.topMargin: 6
         text: {
             var stateLabel = root.bankState.charAt(0).toUpperCase() + root.bankState.slice(1)
             return "\u26A1 Parallel Battery Bank \u2014 " + stateLabel
         }
         color: root.accentColor
-        font.pixelSize: 16
+        font.pixelSize: 13
         font.bold: true
     }
 
@@ -233,15 +237,15 @@ Rectangle {
     Row {
         id: batteryRow
         anchors.top: titleBar.bottom
-        anchors.topMargin: 12
+        anchors.topMargin: 8
         anchors.horizontalCenter: parent.horizontalCenter
-        spacing: (root.width - batteryCount * (iconWidth + 20)) / (batteryCount + 1)
+        spacing: (root.width - batteryCount * (iconWidth + 16)) / (batteryCount + 1)
 
         Repeater {
             model: batteryModel
             delegate: Column {
-                width: root.iconWidth + 20
-                spacing: 2
+                width: root.iconWidth + 16
+                spacing: 1
 
                 BatteryIcon {
                     width: root.iconWidth
@@ -300,12 +304,12 @@ Rectangle {
     Rectangle {
         id: separator
         anchors.top: batteryRow.bottom
-        anchors.topMargin: 12
+        anchors.topMargin: 8
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.leftMargin: 20
-        anchors.rightMargin: 20
-        height: 2
+        anchors.leftMargin: 12
+        anchors.rightMargin: 12
+        height: 1
         color: root.accentColor
     }
 
@@ -313,36 +317,36 @@ Rectangle {
     Row {
         id: aggregateRow
         anchors.top: separator.bottom
-        anchors.topMargin: 10
+        anchors.topMargin: 6
         anchors.horizontalCenter: parent.horizontalCenter
-        spacing: 40
+        spacing: 20
 
         Column {
-            spacing: 2
-            Text { text: "BANK SOC"; color: "#888888"; font.pixelSize: 11; anchors.horizontalCenter: parent.horizontalCenter }
-            Text { text: root.bankSoc + "%"; color: root.socColor(root.bankSoc); font.pixelSize: 22; font.bold: true; anchors.horizontalCenter: parent.horizontalCenter }
+            spacing: 1
+            Text { text: "BANK SOC"; color: "#888888"; font.pixelSize: 9; anchors.horizontalCenter: parent.horizontalCenter }
+            Text { text: root.bankSoc + "%"; color: root.socColor(root.bankSoc); font.pixelSize: 18; font.bold: true; anchors.horizontalCenter: parent.horizontalCenter }
         }
 
         Column {
-            spacing: 2
-            Text { text: "VOLTAGE"; color: "#888888"; font.pixelSize: 11; anchors.horizontalCenter: parent.horizontalCenter }
-            Text { text: root.bankVoltage.toFixed(2) + "V"; color: "#ffffff"; font.pixelSize: 22; font.bold: true; anchors.horizontalCenter: parent.horizontalCenter }
+            spacing: 1
+            Text { text: "VOLTAGE"; color: "#888888"; font.pixelSize: 9; anchors.horizontalCenter: parent.horizontalCenter }
+            Text { text: root.bankVoltage.toFixed(2) + "V"; color: "#ffffff"; font.pixelSize: 18; font.bold: true; anchors.horizontalCenter: parent.horizontalCenter }
         }
 
         Column {
-            spacing: 2
-            Text { text: "TOTAL CURRENT"; color: "#888888"; font.pixelSize: 11; anchors.horizontalCenter: parent.horizontalCenter }
-            Text { text: root.bankCurrent.toFixed(1) + "A"; color: root.accentColor; font.pixelSize: 22; font.bold: true; anchors.horizontalCenter: parent.horizontalCenter }
+            spacing: 1
+            Text { text: "CURRENT"; color: "#888888"; font.pixelSize: 9; anchors.horizontalCenter: parent.horizontalCenter }
+            Text { text: root.bankCurrent.toFixed(1) + "A"; color: root.accentColor; font.pixelSize: 18; font.bold: true; anchors.horizontalCenter: parent.horizontalCenter }
         }
 
         Column {
-            spacing: 2
-            Text { text: "CAPACITY"; color: "#888888"; font.pixelSize: 11; anchors.horizontalCenter: parent.horizontalCenter }
+            spacing: 1
+            Text { text: "CAPACITY"; color: "#888888"; font.pixelSize: 9; anchors.horizontalCenter: parent.horizontalCenter }
             Row {
                 anchors.horizontalCenter: parent.horizontalCenter
                 spacing: 0
-                Text { id: capText; text: Math.round(root.bankCapacity).toString(); color: "#ffffff"; font.pixelSize: 22; font.bold: true }
-                Text { text: " / " + Math.round(root.bankInstalledCapacity) + " Ah"; color: "#888888"; font.pixelSize: 14; anchors.baseline: capText.baseline }
+                Text { id: capText; text: Math.round(root.bankCapacity).toString(); color: "#ffffff"; font.pixelSize: 18; font.bold: true }
+                Text { text: " / " + Math.round(root.bankInstalledCapacity) + " Ah"; color: "#888888"; font.pixelSize: 11; anchors.baseline: capText.baseline }
             }
         }
     }
@@ -352,7 +356,7 @@ Rectangle {
         anchors.centerIn: parent
         text: "Discovering batteries..."
         color: "#888888"
-        font.pixelSize: 16
+        font.pixelSize: 14
         visible: batteryModel.count === 0
     }
 }
