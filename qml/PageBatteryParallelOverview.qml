@@ -107,14 +107,18 @@ SwipeViewPage {
     }
 
     function extractMac(serviceName) {
-        var suffix = serviceName.replace("com.victronenergy.battery.bt", "")
-        return suffix.replace(/_/g, ":").toLowerCase()
+        var hex = serviceName.replace("com.victronenergy.battery.bt", "").toLowerCase()
+        // Service names have no separators (e.g. btA4C138332459) — insert colons
+        if (hex.indexOf(":") === -1 && hex.indexOf("_") === -1 && hex.length === 12)
+            return hex.match(/.{2}/g).join(":")
+        // Older format used underscores
+        return hex.replace(/_/g, ":")
     }
 
     function onBatteryServiceFound(serviceName) {
         if (serviceName === "com.victronenergy.battery.parallel") return
         if (discoveredServices[serviceName]) return
-        if (!serviceName.match(/\.bt[0-9a-f]/)) return
+        if (!serviceName.match(/\.bt[0-9a-fA-F]/)) return
         if (batteryModel.count >= maxBatteries) return
 
         var mac = extractMac(serviceName)
