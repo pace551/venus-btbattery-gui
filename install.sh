@@ -90,6 +90,89 @@ with open(swipe_model, "w") as f:
 print("SwipePageModel.qml patched.")
 PYEOF
 
+# Generate ConfigData.qml from config.ini (workaround for XHR file:// being blocked)
+echo "Generating ConfigData.qml from config.ini..."
+python3 - "$INSTALL_DIR/config.ini" "$INSTALL_DIR/qml/ConfigData.qml" << 'PYEOF'
+import sys, re
+
+config_path = sys.argv[1]
+output_path = sys.argv[2]
+
+# Defaults
+vals = {
+    "socColorGreen": 60, "socColorYellow": 20, "socColorRed": 10,
+    "maxBatteries": 8,
+    "fontBatNameSize": 13, "fontBatNameBold": True,
+    "fontBatSocSize": 20, "fontBatSocBold": True,
+    "fontBatStatsSize": 14, "fontBatStatsBold": False,
+    "fontBankLabelSize": 10, "fontBankLabelBold": False,
+    "fontBankValueSize": 18, "fontBankValueBold": True,
+}
+bt_names = {}   # mac -> name
+bat_order = []  # macs in config order
+
+key_map = {
+    "SOC_COLOR_GREEN": ("socColorGreen", "int"),
+    "SOC_COLOR_YELLOW": ("socColorYellow", "int"),
+    "SOC_COLOR_RED": ("socColorRed", "int"),
+    "MAX_BATTERIES": ("maxBatteries", "int"),
+    "FONT_BAT_NAME_SIZE": ("fontBatNameSize", "int"),
+    "FONT_BAT_NAME_BOLD": ("fontBatNameBold", "bool"),
+    "FONT_BAT_SOC_SIZE": ("fontBatSocSize", "int"),
+    "FONT_BAT_SOC_BOLD": ("fontBatSocBold", "bool"),
+    "FONT_BAT_STATS_SIZE": ("fontBatStatsSize", "int"),
+    "FONT_BAT_STATS_BOLD": ("fontBatStatsBold", "bool"),
+    "FONT_BANK_LABEL_SIZE": ("fontBankLabelSize", "int"),
+    "FONT_BANK_LABEL_BOLD": ("fontBankLabelBold", "bool"),
+    "FONT_BANK_VALUE_SIZE": ("fontBankValueSize", "int"),
+    "FONT_BANK_VALUE_BOLD": ("fontBankValueBold", "bool"),
+}
+
+with open(config_path) as f:
+    for line in f:
+        line = line.strip()
+        if not line or line.startswith("#") or line.startswith("[") or "=" not in line:
+            continue
+        key, val = line.split("=", 1)
+        key, val = key.strip(), val.strip()
+        if key == "BT_NAMES" and val:
+            for pair in val.split(","):
+                pair = pair.strip()
+                if "=" not in pair:
+                    continue
+                mac, name = pair.split("=", 1)
+                mac = mac.strip().lower()
+                name = name.strip()[:6]
+                bt_names[mac] = name
+                bat_order.append(mac)
+        elif key in key_map:
+            prop, typ = key_map[key]
+            if typ == "int":
+                vals[prop] = int(val)
+            elif typ == "bool":
+                vals[prop] = val.lower() in ("true", "1", "yes")
+
+# Generate QML
+lines = ["import QtQuick", "", "QtObject {"]
+for prop, val in vals.items():
+    if isinstance(val, bool):
+        lines.append("    property bool {}: {}".format(prop, "true" if val else "false"))
+    else:
+        lines.append("    property int {}: {}".format(prop, val))
+
+# Emit btNames as a JS object and batOrder as a list
+names_entries = ", ".join('"{}": "{}"'.format(m, n) for m, n in bt_names.items())
+lines.append("    property var btNames: ({{{}}})".format(names_entries))
+order_str = ", ".join('"{}"'.format(m) for m in bat_order)
+lines.append("    property var batOrder: [{}]".format(order_str))
+lines.append("}")
+lines.append("")
+
+with open(output_path, "w") as f:
+    f.write("\n".join(lines))
+print("ConfigData.qml generated.")
+PYEOF
+
 # Patch SwipePageModel.qml
 echo "Patching SwipePageModel.qml..."
 if [ ! -f "$SWIPE_MODEL" ]; then
