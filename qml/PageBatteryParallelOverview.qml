@@ -23,7 +23,7 @@ SwipeViewPage {
     property bool fontBatSocBold: true
     property int fontBatStatsSize: 16
     property bool fontBatStatsBold: false
-    property int fontBankLabelSize: 12
+    property int fontBankLabelSize: 13
     property bool fontBankLabelBold: false
     property int fontBankValueSize: 20
     property bool fontBankValueBold: true
@@ -264,7 +264,7 @@ SwipeViewPage {
 
                     Text {
                         anchors.horizontalCenter: parent.horizontalCenter
-                        text: model.temperature + "\u00B0C \u00B7 \u0394V " + model.cellDiff.toFixed(2)
+                        text: Math.round(model.temperature * 9 / 5 + 32) + "\u00B0F \u00B7 \u0394V " + model.cellDiff.toFixed(2)
                         color: "#aaaaaa"
                         font.pixelSize: root.fontBatStatsSize
                         font.bold: root.fontBatStatsBold
@@ -309,25 +309,25 @@ SwipeViewPage {
             }
 
             Column {
-                spacing: 1
+                spacing: 4
                 Text { text: "BANK SOC"; color: "#888888"; font.pixelSize: root.fontBankLabelSize; font.bold: root.fontBankLabelBold; anchors.horizontalCenter: parent.horizontalCenter }
                 Text { text: root.bankSoc + "%"; color: root.socColor(root.bankSoc); font.pixelSize: root.fontBankValueSize; font.bold: root.fontBankValueBold; anchors.horizontalCenter: parent.horizontalCenter }
             }
 
             Column {
-                spacing: 1
+                spacing: 4
                 Text { text: "VOLTAGE"; color: "#888888"; font.pixelSize: root.fontBankLabelSize; font.bold: root.fontBankLabelBold; anchors.horizontalCenter: parent.horizontalCenter }
                 Text { text: root.bankVoltage.toFixed(2) + "V"; color: "#ffffff"; font.pixelSize: root.fontBankValueSize; font.bold: root.fontBankValueBold; anchors.horizontalCenter: parent.horizontalCenter }
             }
 
             Column {
-                spacing: 1
+                spacing: 4
                 Text { text: "CURRENT"; color: "#888888"; font.pixelSize: root.fontBankLabelSize; font.bold: root.fontBankLabelBold; anchors.horizontalCenter: parent.horizontalCenter }
                 Text { text: root.bankCurrent.toFixed(1) + "A"; color: root.accentColor; font.pixelSize: root.fontBankValueSize; font.bold: root.fontBankValueBold; anchors.horizontalCenter: parent.horizontalCenter }
             }
 
             Column {
-                spacing: 1
+                spacing: 4
                 Text { text: "CAPACITY"; color: "#888888"; font.pixelSize: root.fontBankLabelSize; font.bold: root.fontBankLabelBold; anchors.horizontalCenter: parent.horizontalCenter }
                 Row {
                     anchors.horizontalCenter: parent.horizontalCenter
