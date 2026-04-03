@@ -76,12 +76,18 @@ SwipeViewPage {
     // Strategy 1: Read system/Batteries list
     VeQuickItem {
         id: batteriesItem
-        uid: BackendConnection.serviceUidForType("system") + "/Batteries"
+        uid: "dbus/com.victronenergy.system/Batteries"
+        onValidChanged: {
+            if (valid && value) batteriesItem.processBatteries(value)
+        }
         onValueChanged: {
             if (!valid || !value) return
+            batteriesItem.processBatteries(value)
+        }
+        function processBatteries(val) {
             try {
                 // Value may be a JSON string or a native array
-                var batteries = typeof value === "string" ? JSON.parse(value) : value
+                var batteries = typeof val === "string" ? JSON.parse(val) : val
                 if (!Array.isArray(batteries)) return
                 for (var i = 0; i < batteries.length; i++) {
                     var bat = batteries[i]
@@ -155,7 +161,7 @@ SwipeViewPage {
         discoveredServices[serviceName] = true
 
         // Create binding component
-        var component = Qt.createComponent("BatteryBinding.qml")
+        var component = Qt.createComponent(Qt.resolvedUrl("BatteryBinding.qml"))
         if (component.status === Component.Ready) {
             var binding = component.createObject(root, {
                 serviceUid: serviceUid,
@@ -169,7 +175,7 @@ SwipeViewPage {
 
     function bindAggregate(serviceUid) {
         if (aggregateBinding) return
-        var component = Qt.createComponent("AggregateBinding.qml")
+        var component = Qt.createComponent(Qt.resolvedUrl("AggregateBinding.qml"))
         if (component.status === Component.Ready) {
             aggregateBinding = component.createObject(root, {
                 serviceUid: serviceUid
