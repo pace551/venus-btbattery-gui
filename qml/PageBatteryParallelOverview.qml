@@ -7,6 +7,9 @@ Rectangle {
     height: 480
     color: "#1a1a2e"
 
+    // Accepted by SwipePageModel (unused, but required to avoid binding error)
+    property var view
+
     // Config properties (loaded from config.ini)
     property int socColorGreen: 60
     property int socColorYellow: 20
