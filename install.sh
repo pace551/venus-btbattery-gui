@@ -142,7 +142,7 @@ with open(config_path) as f:
                     continue
                 mac, name = pair.split("=", 1)
                 mac = mac.strip().lower()
-                name = name.strip()[:6]
+                name = name.strip()
                 bt_names[mac] = name
                 bat_order.append(mac)
         elif key in key_map:
