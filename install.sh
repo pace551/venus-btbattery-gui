@@ -58,16 +58,16 @@ swipe_model = sys.argv[1] if len(sys.argv) > 1 else \
 
 marker = "// venus-btbattery-gui"
 insert_code = (
-    "    // venus-btbattery-gui\n"
-    "    var btBatComp = Qt.createComponent("
+    "\t\t// venus-btbattery-gui\n"
+    "\t\tvar btBatComp = Qt.createComponent("
         '"file:///data/venus-btbattery-gui/qml/PageBatteryParallelOverview.qml")\n'
-    "    if (btBatComp.status === Component.Ready) {\n"
-    "        insert(count - 1, btBatComp.createObject(parent, {view: root.view}))\n"
-    "    }\n"
-    "    // venus-btbattery-gui END\n"
+    "\t\tif (btBatComp.status === Component.Ready) {\n"
+    "\t\t\tinsert(count - 1, btBatComp.createObject(parent, {view: root.view}))\n"
+    "\t\t}\n"
+    "\t\t// venus-btbattery-gui END\n"
     "\n"
 )
-anchor = "        completed = true"
+anchor = "\t\tcompleted = true"
 
 if not os.path.exists(swipe_model):
     print("ERROR: {} not found".format(swipe_model))
