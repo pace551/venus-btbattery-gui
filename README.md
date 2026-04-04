@@ -7,7 +7,7 @@ monitored by
 Displays animated battery icons with per-battery stats
 (SOC, voltage, current, temperature, cell voltage delta,
 charge cycles) and bank-level aggregates on the Cerbo GX
-touchscreen.
+touchscreen. Temperatures are displayed in Fahrenheit.
 
 ## Requirements
 
@@ -57,13 +57,30 @@ bash /data/venus-btbattery-gui/uninstall.sh
 
 Edit `/data/venus-btbattery-gui/config.ini` via SSH:
 
+### Battery Settings
+
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `BT_NAMES` | (empty) | MAC=Name pairs. 6 char max. |
-| `SOC_COLOR_GREEN` | 60 | SOC% for green fill |
-| `SOC_COLOR_YELLOW` | 20 | SOC% for yellow/orange fill |
-| `SOC_COLOR_RED` | 10 | SOC% for red fill / critical |
-| `MAX_BATTERIES` | 8 | Max batteries (1-8) |
+| `BT_NAMES` | (empty) | MAC=Name pairs, comma-separated. Batteries render in the order listed; unlisted batteries appended after. |
+| `SOC_COLOR_GREEN` | 60 | SOC% threshold for green fill |
+| `SOC_COLOR_YELLOW` | 20 | SOC% threshold for yellow/orange fill |
+| `SOC_COLOR_RED` | 10 | SOC% threshold for red fill / critical |
+| `MAX_BATTERIES` | 8 | Max batteries to display (1-8) |
+
+### Font Customization
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `FONT_BAT_NAME_SIZE` | 13 | Battery name label font size (px) |
+| `FONT_BAT_NAME_BOLD` | true | Battery name label bold |
+| `FONT_BAT_SOC_SIZE` | 20 | Battery SOC percentage font size (px) |
+| `FONT_BAT_SOC_BOLD` | true | Battery SOC percentage bold |
+| `FONT_BAT_STATS_SIZE` | 16 | Battery stats (voltage, current, temp, cycles) font size (px) |
+| `FONT_BAT_STATS_BOLD` | false | Battery stats bold |
+| `FONT_BANK_LABEL_SIZE` | 13 | Bank aggregate labels font size (px) |
+| `FONT_BANK_LABEL_BOLD` | false | Bank aggregate labels bold |
+| `FONT_BANK_VALUE_SIZE` | 20 | Bank aggregate values font size (px) |
+| `FONT_BANK_VALUE_BOLD` | true | Bank aggregate values bold |
 
 Restart the GUI after config changes:
 `svc -t /service/gui`
