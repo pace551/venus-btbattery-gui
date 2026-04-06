@@ -231,9 +231,15 @@ RCEOF
 
 echo "rc.local updated."
 
-# Restart GUI
+# Restart GUI (service name varies by VenusOS version)
 echo "Restarting GUI..."
-svc -t /service/gui 2>/dev/null || echo "Note: GUI restart skipped (not on VenusOS)."
+if [ -d /service/start-gui ]; then
+    svc -t /service/start-gui
+elif [ -d /service/gui ]; then
+    svc -t /service/gui
+else
+    echo "Note: GUI restart skipped (not on VenusOS)."
+fi
 
 echo ""
 echo "=== Installation complete ==="
