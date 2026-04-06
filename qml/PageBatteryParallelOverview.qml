@@ -17,13 +17,13 @@ SwipeViewPage {
     property var batOrder: []    // MAC strings in config order
 
     // Font config
-    property int fontBatNameSize: 13
+    property int fontBatNameSize: 14
     property bool fontBatNameBold: true
     property int fontBatSocSize: 20
     property bool fontBatSocBold: true
     property int fontBatStatsSize: 16
     property bool fontBatStatsBold: false
-    property int fontBankLabelSize: 13
+    property int fontBankLabelSize: 14
     property bool fontBankLabelBold: false
     property int fontBankValueSize: 20
     property bool fontBankValueBold: true
@@ -282,8 +282,8 @@ SwipeViewPage {
                     Text {
                         anchors.horizontalCenter: parent.horizontalCenter
                         text: "S: " + model.softResets + " / R: " + model.reconnects
-                        color: "#666666"
-                        font.pixelSize: root.fontBatStatsSize - 2
+                        color: "#aaaaaa"
+                        font.pixelSize: root.fontBatStatsSize
                         font.bold: root.fontBatStatsBold
                     }
                 }
