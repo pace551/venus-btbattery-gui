@@ -319,30 +319,30 @@ SwipeViewPage {
 
             Column {
                 spacing: 4
-                Text { text: "BANK SOC"; color: "#888888"; font.pixelSize: root.fontBankLabelSize; font.bold: root.fontBankLabelBold; anchors.horizontalCenter: parent.horizontalCenter }
+                Text { text: "BANK SOC"; color: "#aaaaaa"; font.pixelSize: root.fontBankLabelSize; font.bold: root.fontBankLabelBold; anchors.horizontalCenter: parent.horizontalCenter }
                 Text { text: root.bankSoc + "%"; color: root.socColor(root.bankSoc); font.pixelSize: root.fontBankValueSize; font.bold: root.fontBankValueBold; anchors.horizontalCenter: parent.horizontalCenter }
             }
 
             Column {
                 spacing: 4
-                Text { text: "VOLTAGE"; color: "#888888"; font.pixelSize: root.fontBankLabelSize; font.bold: root.fontBankLabelBold; anchors.horizontalCenter: parent.horizontalCenter }
+                Text { text: "VOLTAGE"; color: "#aaaaaa"; font.pixelSize: root.fontBankLabelSize; font.bold: root.fontBankLabelBold; anchors.horizontalCenter: parent.horizontalCenter }
                 Text { text: root.bankVoltage.toFixed(2) + "V"; color: "#ffffff"; font.pixelSize: root.fontBankValueSize; font.bold: root.fontBankValueBold; anchors.horizontalCenter: parent.horizontalCenter }
             }
 
             Column {
                 spacing: 4
-                Text { text: "CURRENT"; color: "#888888"; font.pixelSize: root.fontBankLabelSize; font.bold: root.fontBankLabelBold; anchors.horizontalCenter: parent.horizontalCenter }
+                Text { text: "CURRENT"; color: "#aaaaaa"; font.pixelSize: root.fontBankLabelSize; font.bold: root.fontBankLabelBold; anchors.horizontalCenter: parent.horizontalCenter }
                 Text { text: root.bankCurrent.toFixed(1) + "A"; color: root.accentColor; font.pixelSize: root.fontBankValueSize; font.bold: root.fontBankValueBold; anchors.horizontalCenter: parent.horizontalCenter }
             }
 
             Column {
                 spacing: 4
-                Text { text: "CAPACITY"; color: "#888888"; font.pixelSize: root.fontBankLabelSize; font.bold: root.fontBankLabelBold; anchors.horizontalCenter: parent.horizontalCenter }
+                Text { text: "CAPACITY"; color: "#aaaaaa"; font.pixelSize: root.fontBankLabelSize; font.bold: root.fontBankLabelBold; anchors.horizontalCenter: parent.horizontalCenter }
                 Row {
                     anchors.horizontalCenter: parent.horizontalCenter
                     spacing: 0
                     Text { id: capText; text: Math.round(root.bankCapacity).toString(); color: "#ffffff"; font.pixelSize: root.fontBankValueSize; font.bold: root.fontBankValueBold }
-                    Text { text: " / " + Math.round(root.bankInstalledCapacity) + " Ah"; color: "#888888"; font.pixelSize: root.fontBankLabelSize + 2; font.bold: root.fontBankLabelBold; anchors.baseline: capText.baseline }
+                    Text { text: " / " + Math.round(root.bankInstalledCapacity) + " Ah"; color: "#aaaaaa"; font.pixelSize: root.fontBankValueSize; font.bold: root.fontBankLabelBold; anchors.baseline: capText.baseline }
                 }
             }
         }
