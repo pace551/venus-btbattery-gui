@@ -40,12 +40,17 @@ if [ -f "$SCRIPT_DIR/config.ini" ]; then
 fi
 
 # Copy files to /data (persists across firmware upgrades)
+# When running from INSTALL_DIR itself, skip copies that would be src==dst
 echo "Installing to $INSTALL_DIR..."
 mkdir -p "$INSTALL_DIR/qml"
-cp "$SCRIPT_DIR/config.ini" "$INSTALL_DIR/"
-cp "$SCRIPT_DIR/qml/"*.qml "$INSTALL_DIR/qml/"
-cp "$SCRIPT_DIR/install.sh" "$INSTALL_DIR/"
-cp "$SCRIPT_DIR/uninstall.sh" "$INSTALL_DIR/"
+if [ "$(realpath "$SCRIPT_DIR")" != "$(realpath "$INSTALL_DIR")" ]; then
+    cp "$SCRIPT_DIR/config.ini" "$INSTALL_DIR/"
+    cp "$SCRIPT_DIR/qml/"*.qml "$INSTALL_DIR/qml/"
+    cp "$SCRIPT_DIR/install.sh" "$INSTALL_DIR/"
+    cp "$SCRIPT_DIR/uninstall.sh" "$INSTALL_DIR/"
+else
+    echo "Running from install directory, skipping file copy."
+fi
 
 # Write the SwipePageModel patch script
 cat > "$INSTALL_DIR/patch_swipe_model.py" << 'PYEOF'
