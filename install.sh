@@ -107,11 +107,11 @@ output_path = sys.argv[2]
 vals = {
     "socColorGreen": 60, "socColorYellow": 20, "socColorRed": 10,
     "maxBatteries": 8,
-    "fontBatNameSize": 14, "fontBatNameBold": True,
-    "fontBatSocSize": 20, "fontBatSocBold": True,
-    "fontBatStatsSize": 14, "fontBatStatsBold": False,
-    "fontBankLabelSize": 11, "fontBankLabelBold": False,
-    "fontBankValueSize": 18, "fontBankValueBold": True,
+    "fontBatNameSize": 15, "fontBatNameBold": True,
+    "fontBatSocSize": 21, "fontBatSocBold": True,
+    "fontBatStatsSize": 15, "fontBatStatsBold": False,
+    "fontBankLabelSize": 12, "fontBankLabelBold": False,
+    "fontBankValueSize": 19, "fontBankValueBold": True,
 }
 bt_names = {}   # mac -> name
 bat_order = []  # macs in config order

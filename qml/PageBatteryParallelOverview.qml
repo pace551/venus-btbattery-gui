@@ -17,15 +17,15 @@ SwipeViewPage {
     property var batOrder: []    // MAC strings in config order
 
     // Font config
-    property int fontBatNameSize: 14
+    property int fontBatNameSize: 15
     property bool fontBatNameBold: true
-    property int fontBatSocSize: 20
+    property int fontBatSocSize: 21
     property bool fontBatSocBold: true
-    property int fontBatStatsSize: 16
+    property int fontBatStatsSize: 17
     property bool fontBatStatsBold: false
-    property int fontBankLabelSize: 14
+    property int fontBankLabelSize: 15
     property bool fontBankLabelBold: false
-    property int fontBankValueSize: 20
+    property int fontBankValueSize: 21
     property bool fontBankValueBold: true
 
     Component.onCompleted: loadConfig()
@@ -195,8 +195,8 @@ SwipeViewPage {
 
     // Sizing — scaled for 480x272 Touch 70 screen
     property int batteryCount: batteryModel.count
-    property int iconWidth: batteryCount <= 4 ? 62 : (batteryCount <= 6 ? 52 : 44)
-    property int iconHeight: batteryCount <= 4 ? 125 : (batteryCount <= 6 ? 106 : 88)
+    property int iconWidth: batteryCount <= 4 ? 71 : (batteryCount <= 6 ? 60 : 51)
+    property int iconHeight: batteryCount <= 4 ? 144 : (batteryCount <= 6 ? 122 : 101)
 
     // SOC color helper
     function socColor(soc) {
@@ -211,7 +211,7 @@ SwipeViewPage {
         id: mainContent
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        spacing: 4
+        spacing: 2
 
         // === BATTERY ROW ===
         Row {
@@ -223,7 +223,7 @@ SwipeViewPage {
                 model: batteryModel
                 delegate: Column {
                     width: root.iconWidth + 20
-                    spacing: 1
+                    spacing: 0
 
                     BatteryIcon {
                         width: root.iconWidth
@@ -238,7 +238,7 @@ SwipeViewPage {
                         socColorRed: root.socColorRed
                     }
 
-                    Item { width: 1; height: 4 }
+                    Item { width: 1; height: 2 }
 
                     Text {
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -292,14 +292,14 @@ SwipeViewPage {
         }
 
         // === SEPARATOR ===
-        Item { width: 1; height: 4 }
+        Item { width: 1; height: 2 }
         Rectangle {
             width: batteryRow.width
             height: 1
             color: root.accentColor
             anchors.horizontalCenter: parent.horizontalCenter
         }
-        Item { width: 1; height: 4 }
+        Item { width: 1; height: 2 }
 
         // === BANK AGGREGATE ROW ===
         Row {
