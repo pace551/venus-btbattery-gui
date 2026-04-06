@@ -53,15 +53,6 @@ Item {
         uid: root.serviceUid + "/History/ChargeCycles"
         onValueChanged: if (valid) root.updateModel("cycles", value)
     }
-    VeQuickItem {
-        uid: root.serviceUid + "/Info/SoftResetCount"
-        onValueChanged: if (valid) root.updateModel("softResets", value)
-    }
-    VeQuickItem {
-        uid: root.serviceUid + "/Info/ReconnectCount"
-        onValueChanged: if (valid) root.updateModel("reconnects", value)
-    }
-
     // Issue 3 fix: Disconnection handling
     // Watch /Connected to detect service going offline
     VeQuickItem {

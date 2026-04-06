@@ -140,7 +140,6 @@ SwipeViewPage {
             serviceUid: serviceUid,
             soc: 0, voltage: 0, current: 0,
             temperature: 0, cellDiff: 0, cycles: 0,
-            softResets: 0, reconnects: 0,
             online: true
         })
 
@@ -280,13 +279,7 @@ SwipeViewPage {
                         font.bold: root.fontBatStatsBold
                     }
 
-                    Text {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        text: "S: " + model.softResets + " / R: " + model.reconnects
-                        color: "#aaaaaa"
-                        font.pixelSize: root.fontBatStatsSize
-                        font.bold: root.fontBatStatsBold
-                    }
+
                 }
             }
         }
