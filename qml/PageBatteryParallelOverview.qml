@@ -140,6 +140,7 @@ SwipeViewPage {
             serviceUid: serviceUid,
             soc: 0, voltage: 0, current: 0,
             temperature: 0, cellDiff: 0, cycles: 0,
+            softResets: 0, reconnects: 0,
             online: true
         })
 
@@ -277,6 +278,14 @@ SwipeViewPage {
                         font.pixelSize: root.fontBatStatsSize
                         font.bold: root.fontBatStatsBold
                     }
+
+                    Text {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: "S: " + model.softResets + " / R: " + model.reconnects
+                        color: "#666666"
+                        font.pixelSize: root.fontBatStatsSize - 2
+                        font.bold: root.fontBatStatsBold
+                    }
                 }
             }
         }
@@ -333,7 +342,7 @@ SwipeViewPage {
                     anchors.horizontalCenter: parent.horizontalCenter
                     spacing: 0
                     Text { id: capText; text: Math.round(root.bankCapacity).toString(); color: "#ffffff"; font.pixelSize: root.fontBankValueSize; font.bold: root.fontBankValueBold }
-                    Text { text: " / " + Math.round(root.bankInstalledCapacity) + " Ah"; color: "#888888"; font.pixelSize: root.fontBankLabelSize + 2; anchors.baseline: capText.baseline }
+                    Text { text: " / " + Math.round(root.bankInstalledCapacity) + " Ah"; color: "#888888"; font.pixelSize: root.fontBankLabelSize + 2; font.bold: root.fontBankLabelBold; anchors.baseline: capText.baseline }
                 }
             }
         }
