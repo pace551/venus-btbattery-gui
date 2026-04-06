@@ -169,7 +169,8 @@ SwipeViewPage {
     }
 
     // Bank aggregate — bound to aggregate service
-    property int bankSoc: aggregateBinding ? Math.round(aggregateBinding.soc) : 0
+    // Match VenusOS convention: don't round up to 100% unless truly ≥99.9
+    property int bankSoc: aggregateBinding ? (aggregateBinding.soc >= 99.9 ? 100 : Math.floor(aggregateBinding.soc)) : 0
     property real bankVoltage: aggregateBinding ? aggregateBinding.voltage : 0
     property real bankCurrent: aggregateBinding ? aggregateBinding.current : 0
     property real bankCapacity: aggregateBinding ? aggregateBinding.capacity : 0
